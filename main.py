@@ -9,8 +9,8 @@ import aiosqlite
 
 # --- TO'G'RILANGAN SOZLAMALAR ---
 BOT_TOKEN = "8634039492:AAF_RmClS3qUxkX1QtuS1ABcvbhGwUyFfEE"  
-ADMIN_ID = 1316308230          
-KANAL_ID = -1002271887321  
+ADMIN_ID = 1316308230   
+KANAL_ID = "@kinoqidir_N1"
 INSTAGRAM_LINK = "https://instagram.com"  # Siz so'ragan aniq username
 
 logging.basicConfig(level=logging.INFO)
