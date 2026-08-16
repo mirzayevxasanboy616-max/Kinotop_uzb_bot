@@ -1,10 +1,10 @@
+import os
 import asyncio
+from aiohttp import web
 
-# MainThread event loop muammosini hal qilish
-try:
-    asyncio.get_event_loop()
-except RuntimeError:
-    asyncio.set_event_loop(asyncio.new_event_loop())
+# Event loop muammosini hal qilish
+asyncio.set_event_loop_policy(asyncio.DefaultEventLoopPolicy())
+
 import logging
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import CommandStart, Command
@@ -204,29 +204,27 @@ async def search_movie(message: types.Message):
                 pass
             await message.answer("❌ Afsuski, bu kod bilan kino topilmadi. So'rovingiz adminga yuborildi!")
 
-import os
-from aiohttp import web
-import asyncio
-
 async def handle(request):
     return web.Response(text="Bot is running!")
 
-app = web.Application()
-app.router.add_get('/', handle)
-
-# Render uchun asosiy ishga tushirish qismi
-if __name__ == "__main__":
-    import logging
-    logging.basicConfig(level=logging.INFO)
-    
+async def main():
     # 1. Ma'lumotlar bazasini yaratish
-    asyncio.run(init_db())
+    await init_db()
     
-    # 2. Botni fonda (background) ishga tushirish
-    print("Maksimal tezlikdagi limitsiz bot ishga tushdi!")
-    loop = asyncio.get_event_loop()
-    loop.create_task(dp.start_polling(bot))
-    
-    # 3. Render veb-portini ochiq ushlash
+    # 2. Render porti uchun veb-serverni ishga tushirish
+    app = web.Application()
+    app.router.add_get('/', handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
     port = int(os.environ.get("PORT", 10000))
-    web.run_app(app, host='0.0.0.0', port=port, loop=loop)
+    site = web.TCPSite(runner, "0.0.0.0", port)
+    await site.start()
+    
+    print("Maksimal tezlikdagi limitsiz bot ishga tushdi!")
+    
+    # 3. Telegram botni ishga tushirish
+    await dp.start_polling(bot)
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main())
