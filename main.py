@@ -198,10 +198,29 @@ async def search_movie(message: types.Message):
                 pass
             await message.answer("❌ Afsuski, bu kod bilan kino topilmadi. So'rovingiz adminga yuborildi!")
 
-async def main():
-    await init_db()
-    print("Maksimal tezlikdagi limitsiz bot ishga tushdi!")
-    await dp.start_polling(bot)
+import os
+from aiohttp import web
+import asyncio
 
+async def handle(request):
+    return web.Response(text="Bot is running!")
+
+app = web.Application()
+app.router.add_get('/', handle)
+
+# Render uchun asosiy ishga tushirish qismi
 if __name__ == "__main__":
-    asyncio.run(main())
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    
+    # 1. Ma'lumotlar bazasini yaratish
+    asyncio.run(init_db())
+    
+    # 2. Botni fonda (background) ishga tushirish
+    print("Maksimal tezlikdagi limitsiz bot ishga tushdi!")
+    loop = asyncio.get_event_loop()
+    loop.create_task(dp.start_polling(bot))
+    
+    # 3. Render veb-portini ochiq ushlash
+    port = int(os.environ.get("PORT", 10000))
+    web.run_app(app, host='0.0.0.0', port=port, loop=loop)
