@@ -1,4 +1,4 @@
-⁷import os
+import os
 import asyncio
 from aiohttp import web
 
