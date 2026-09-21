@@ -1,4 +1,4 @@
-import os
+⁷import os
 import asyncio
 from aiohttp import web
 
@@ -238,7 +238,9 @@ async def main():
     await site.start()
 
     print("Maximal tezlikdagi limitssiz bot ishga tushdi!")
+    await bot.delete_webhook(drop_pending_updates=True)  
     await dp.start_polling(bot)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
