@@ -17,6 +17,7 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeybo
 BOT_TOKEN = "8634039492:AAF_RmClS3qUxkX1QtuS1ABcvbhGwUyFfEE"
 ADMIN_ID = 1316308230
 KANAL_ID = "@kinoqidir_N1"
+INSTAGRAM_LINK = "https://kinoqidir_uzb"
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
 
