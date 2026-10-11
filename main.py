@@ -14,7 +14,8 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
 
 # --- SOZLAMALAR ---
-BOT_TOKEN = "8634039492:AAF_RmClS3qUxkX1QtuS1ABcvbhGwUyFfEE"
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+
 ADMIN_ID = 1316308230
 KANAL_ID = "@kinoqidir_N1"
 INSTAGRAM_LINK = "https://Kinoch1_bola"
