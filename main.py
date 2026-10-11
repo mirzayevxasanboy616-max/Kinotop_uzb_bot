@@ -236,11 +236,16 @@ async def main():
     port = int(os.environ.get("PORT", 10000))
     site = web.TCPSite(runner, "0.0.0.0", port)
     await site.start()
-
+    
     print("Maximal tezlikdagi limitssiz bot ishga tushdi!")
-    await bot.delete_webhook(drop_pending_updates=True)  
-    await dp.start_polling(bot)
-
+    await bot.delete_webhook(drop_pending_updates=True)
+    
+    try:
+        await dp.start_polling(bot)
+    finally:
+        await bot.session.close()
+        await runner.cleanup()
 
 if __name__ == "__main__":
     asyncio.run(main())
+
